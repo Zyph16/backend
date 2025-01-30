@@ -13,12 +13,25 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:3001', 'http://localhost:3000',  'https://uep-student-portal.vercel.app']; 
+const allowedOrigins = [
+  'http://localhost:3001', 
+  'http://localhost:3000', 
+  'https://uep-student-portal.vercel.app' // Ensure this is listed correctly
+];
+
 app.use(cors({
-  origin: allowedOrigins, 
+  origin: function(origin, callback) {
+    // Check if the incoming origin matches one of the allowed origins
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,POST,PUT,DELETE',
-  credentials: true, 
+  credentials: true,
 }));
+
 
 
 app.use(bodyParser.json());
