@@ -16,6 +16,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3001', 
   'http://localhost:3000', 
+  'https://backend-seven-chi-74.vercel.app',
   'https://uep-student-portal.vercel.app' // Ensure this is listed correctly
 ];
 
