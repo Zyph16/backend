@@ -1,4 +1,4 @@
-// routes/gradeRoutes.js
+
 const express = require('express');
 const gradeController = require('../controllers/gradeController');
 const router = express.Router();

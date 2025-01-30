@@ -1,8 +1,8 @@
-// controllers/subjectController.js
+
 const Subject = require('../models/subjectModel');
 
 module.exports = {
-  // Create Subject
+
   createSubject: (req, res) => {
     const { subject_code, subject_name, schedule_time, year, semester, home_college, home_department } = req.body;
     Subject.createSubject(subject_code, subject_name, schedule_time, year, semester, home_college, home_department, (err, result) => {
@@ -11,7 +11,7 @@ module.exports = {
     });
   },
 
-  // Read All Subjects
+
   getAllSubjects: (req, res) => {
     Subject.getAllSubjects((err, subjects) => {
       if (err) return res.status(500).json({ error: "Error fetching subjects" });
@@ -19,7 +19,7 @@ module.exports = {
     });
   },
 
-  // Read Subject by ID
+
   getSubjectById: (req, res) => {
     const { subject_id } = req.params;
     Subject.getSubjectById(subject_id, (err, subject) => {
@@ -29,7 +29,7 @@ module.exports = {
     });
   },
 
-  // Update Subject Information
+
   updateSubject: (req, res) => {
     const { subject_id } = req.params;
     const { subject_code, subject_name, schedule_time, year, semester, home_college, home_department } = req.body;
@@ -39,7 +39,7 @@ module.exports = {
     });
   },
 
-  // Delete Subject
+
   deleteSubject: (req, res) => {
     const { subject_id } = req.params;
     Subject.deleteSubject(subject_id, (err, result) => {

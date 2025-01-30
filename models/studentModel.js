@@ -1,6 +1,6 @@
-const db = require('../config/db'); // Adjust path as needed
+const db = require('../config/db');
 
-// Create student in the database
+
 const createStudent = (user_id, first_name, last_name, birthdate, email, phone, address) => {
   return new Promise((resolve, reject) => {
     const query = `
@@ -10,7 +10,7 @@ const createStudent = (user_id, first_name, last_name, birthdate, email, phone, 
     db.query(query, [user_id, user_id, first_name, last_name, birthdate, email, phone, address], (err, result) => {
       if (err) reject(err);
       resolve({
-        person_id: result.insertId,  // person_id is now the same as user_id
+        person_id: result.insertId, 
         first_name,
         last_name,
         birthdate,
@@ -20,7 +20,7 @@ const createStudent = (user_id, first_name, last_name, birthdate, email, phone, 
   });
 };
 
-// Get student by user_id
+
 const getStudentByUserId = (user_id) => {
   return new Promise((resolve, reject) => {
     const query = 'SELECT * FROM student WHERE user_id = ?';
@@ -31,7 +31,6 @@ const getStudentByUserId = (user_id) => {
   });
 };
 
-// Get student by person_id (for retrieval based on person_id)
 const getStudentByPersonId = (person_id) => {
   return new Promise((resolve, reject) => {
     const query = 'SELECT * FROM student WHERE person_id = ?';
@@ -42,7 +41,7 @@ const getStudentByPersonId = (person_id) => {
   });
 };
 
-// Export the functions to be used in other parts of the app
+
 module.exports = {
   createStudent,
   getStudentByUserId,

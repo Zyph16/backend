@@ -1,8 +1,8 @@
-// controllers/studentController.js
+
 const Student = require('../models/studentModel');
 
 module.exports = {
-  // Create Student
+
   createStudent: (req, res) => {
     const { person_id, first_name, last_name, user_id } = req.body;
     Student.createStudent(person_id, first_name, last_name, user_id, (err, result) => {
@@ -11,7 +11,6 @@ module.exports = {
     });
   },
 
-  // Read All Students
   getAllStudents: (req, res) => {
     Student.getAllStudents((err, students) => {
       if (err) return res.status(500).json({ error: "Error fetching students" });
@@ -19,7 +18,7 @@ module.exports = {
     });
   },
 
-  // Read Student by ID
+
   getStudentById: (req, res) => {
     const { person_id } = req.params;
     Student.getStudentById(person_id, (err, student) => {
@@ -29,7 +28,7 @@ module.exports = {
     });
   },
 
-  // Update Student Information
+
   updateStudent: (req, res) => {
     const { person_id } = req.params;
     const { first_name, last_name, email, phone, address } = req.body;
@@ -39,7 +38,7 @@ module.exports = {
     });
   },
 
-  // Delete Student
+
   deleteStudent: (req, res) => {
     const { person_id } = req.params;
     Student.deleteStudent(person_id, (err, result) => {

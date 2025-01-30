@@ -1,7 +1,7 @@
-// models/userModel.js
-const db = require('../config/db'); // Adjust path as needed
 
-// Get user by username
+const db = require('../config/db'); 
+
+
 const getUserByUsername = (username) => {
   return new Promise((resolve, reject) => {
     const query = 'SELECT * FROM users WHERE username = ?';
@@ -12,7 +12,7 @@ const getUserByUsername = (username) => {
   });
 };
 
-// Create user in the database
+
 const createUser = (username, hashedPassword) => {
   return new Promise((resolve, reject) => {
     const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
@@ -34,8 +34,31 @@ const getAllUsers = () => {
   });
 };
 
+const checkUsernameAvailability = (username) => {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT * FROM users WHERE username = ?';
+    db.query(query, [username], (err, result) => {
+      if (err) reject(err);
+      resolve(result.length > 0); 
+    });
+  });
+};
+
+
+const checkUserIdAvailability = (user_id) => {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT * FROM users WHERE user_id = ?';
+    db.query(query, [user_id], (err, result) => {
+      if (err) reject(err);
+      resolve(result.length > 0); 
+    });
+  });
+};
+
 module.exports = {
   getAllUsers,
   getUserByUsername,
-  createUser
+  createUser,
+  checkUsernameAvailability,
+  checkUserIdAvailability
 };

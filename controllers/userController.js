@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
-  const { username, password } = req.body;  // password is actually birthdate here
+  const { username, password } = req.body;  
 
   if (!username || !password) {
     return res.status(400).json({ error: "Username and password are required" });
@@ -14,17 +14,17 @@ const registerUser = async (req, res) => {
   }
 
   try {
-    // Check if the username already exists
+  
     const result = await User.getUserByUsername(username);
     if (result.length > 0) {
       return res.status(400).json({ error: "Username already exists" });
     }
 
-    // Hash the password (which is the birthdate)
+   
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create the user in the database
+
     const newUser = await User.createUser(username, hashedPassword);
 
     return res.status(201).json({
@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
   }
 
   try {
-    // Check if the username exists
+
     const result = await User.getUserByUsername(username);
     if (result.length === 0) {
       return res.status(404).json({ error: "User not found" });
@@ -59,13 +59,13 @@ const loginUser = async (req, res) => {
 
     const user = result[0];
 
-    // Compare password with hashed password in the database
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Generate JWT Token
+
     const token = jwt.sign(
       { user_id: user.user_id, username: user.username },
       process.env.JWT_SECRET_KEY,
@@ -89,7 +89,7 @@ const loginUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.getAllUsers(); // Fetch users from DB
+    const users = await User.getAllUsers(); 
     return res.status(200).json(users);
   } catch (err) {
     console.error("Error fetching users:", err);

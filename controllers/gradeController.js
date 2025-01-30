@@ -1,8 +1,8 @@
-// controllers/gradeController.js
+
 const Grade = require('../models/gradeModel');
 
 module.exports = {
-  // Create Grade
+
   createGrade: (req, res) => {
     const { person_id, subject_id, grade, year, semester } = req.body;
     Grade.createGrade(person_id, subject_id, grade, year, semester, (err, result) => {
@@ -11,7 +11,7 @@ module.exports = {
     });
   },
 
-  // Read Grades by Student
+
   getGradesByStudent: (req, res) => {
     const { person_id } = req.params;
     Grade.getGradesByStudent(person_id, (err, grades) => {
@@ -20,7 +20,7 @@ module.exports = {
     });
   },
 
-  // Update Grade
+
   updateGrade: (req, res) => {
     const { grade_id } = req.params;
     const { grade, year, semester } = req.body;
@@ -30,7 +30,7 @@ module.exports = {
     });
   },
 
-  // Delete Grade
+
   deleteGrade: (req, res) => {
     const { grade_id } = req.params;
     Grade.deleteGrade(grade_id, (err, result) => {
