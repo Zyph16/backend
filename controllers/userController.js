@@ -2,28 +2,6 @@ const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const checkUserIdExists = async (req, res) => {
-  const { user_id } = req.body;
-
-  if (!user_id) {
-    return res.status(400).json({ error: 'User ID is required' });
-  }
-
-  try {
-    // Query the database to check if the user_id exists
-    const result = await User.getUserByUserID(user_id); // You need to implement this method in your model
-
-    if (result.length > 0) {
-      return res.status(200).json({ exists: true });
-    } else {
-      return res.status(200).json({ exists: false });
-    }
-  } catch (err) {
-    console.error('Error checking user ID:', err);
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
 const registerUser = async (req, res) => {
   const { username, password } = req.body;  // password is actually birthdate here
 
@@ -118,9 +96,9 @@ const getAllUsers = async (req, res) => {
     return res.status(500).json({ error: "Error fetching users", details: err.message });
   }
 };
+
 module.exports = {
   registerUser,
   getAllUsers,
-  loginUser,
-  checkUserIdExists
+  loginUser
 };

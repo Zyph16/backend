@@ -11,7 +11,6 @@ router.post('/login', userController.loginUser);
 // Get all users
 router.get('/', userController.getAllUsers);
 
-// Check if user ID exists
-router.post('/check-userid', userController.checkUserIdExists);
+
 
 module.exports = router;
