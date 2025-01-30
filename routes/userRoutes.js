@@ -9,6 +9,9 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 
 // Get all users
-router.get('/', userController.getAllUsers); // Make sure this matches the route you're using to fetch users
+router.get('/', userController.getAllUsers);
+
+// Check if user ID exists
+router.post('/check-userid', userController.checkUserIdExists);
 
 module.exports = router;

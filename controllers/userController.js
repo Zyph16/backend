@@ -2,8 +2,30 @@ const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const checkUserIdExists = async (req, res) => {
+  const { user_id } = req.body;
+
+  if (!user_id) {
+    return res.status(400).json({ error: 'User ID is required' });
+  }
+
+  try {
+    // Query the database to check if the user_id exists
+    const result = await User.getUserByUserID(user_id); // You need to implement this method in your model
+
+    if (result.length > 0) {
+      return res.status(200).json({ exists: true });
+    } else {
+      return res.status(200).json({ exists: false });
+    }
+  } catch (err) {
+    console.error('Error checking user ID:', err);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 const registerUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password } = req.body;  // password is actually birthdate here
 
   if (!username || !password) {
     return res.status(400).json({ error: "Username and password are required" });
@@ -20,7 +42,7 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ error: "Username already exists" });
     }
 
-    // Hash the password
+    // Hash the password (which is the birthdate)
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -42,7 +64,6 @@ const registerUser = async (req, res) => {
     });
   }
 };
-
 
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
@@ -84,22 +105,22 @@ const loginUser = async (req, res) => {
 
   } catch (err) {
     console.error("Error during login:", err);
-    return res.status(500).json({ error: "Error during login" });
+    return res.status(500).json({ error: "Error during login", details: err.message });
   }
 };
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.getAllUsers(); // Fetch users from DB
     return res.status(200).json(users);
   } catch (err) {
     console.error("Error fetching users:", err);
-    return res.status(500).json({ error: "Error fetching users" });
+    return res.status(500).json({ error: "Error fetching users", details: err.message });
   }
 };
-
-// ✅ Exporting the functions properly
 module.exports = {
   registerUser,
   getAllUsers,
-  loginUser
+  loginUser,
+  checkUserIdExists
 };
