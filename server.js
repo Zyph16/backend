@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -13,22 +12,24 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:3001', 'http://localhost:3000']; 
+// Use environment variables for allowed origins
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:3000',  // Local development frontend URL or default
+  process.env.FRONTEND_DEPLOYED_URL || 'https://uep-student-portal-bwfv96dw0-zyph16s-projects.vercel.app', // Deployed frontend URL
+];
+
 app.use(cors({
   origin: allowedOrigins, 
   methods: 'GET,POST,PUT,DELETE',
   credentials: true, 
 }));
 
-
 app.use(bodyParser.json());
-
 
 app.use('/api/users', userRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/grades', gradeRoutes);
-
 
 app.post('/api/users/check-userid', async (req, res) => {
   const { user_id } = req.body;
@@ -46,7 +47,6 @@ app.post('/api/users/check-userid', async (req, res) => {
 app.post('/api/users/check-username', async (req, res) => {
   const { username } = req.body;
   try {
-  
     const user = await User.findOne({ username });
     if (user) {
       return res.status(400).json({ error: 'Username already exists' });
@@ -57,14 +57,11 @@ app.post('/api/users/check-username', async (req, res) => {
   }
 });
 
-
 app.use(errorHandler);
-
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
-
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
